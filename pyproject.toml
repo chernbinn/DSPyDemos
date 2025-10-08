@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DSPyDemos"
+version = "0.1.0"
+description = "DSPy learn demos"
+readme="README.md"
+
+dependencies = [
+    "dspy>=3.0.3",
+]
+
+#[project.scripts]
+
+
+#[project.gui-scripts]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = [
+    "demos*"
+]
+
+#[tool.setuptools.package-data]
+#"cmdbox_commands.task_manager" = ["*.j2"]
+
