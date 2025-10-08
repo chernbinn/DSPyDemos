@@ -52,6 +52,9 @@ class OllamaLM(dspy.LM):
 
     def __call__(self, messages, **kwargs):
         # DSPy 会传入 messages（list of dict），不是 prompt 字符串
+        is_chat = kwargs.get("is_chat", True)
+        if not is_chat:
+            raise ValueError("OllamaLM only supports chat models. Set is_chat=True.")
         response = self.basic_request(messages, **kwargs)
         # 返回 list of completions（DSPy 要求）
         return [response["response"].strip()]
@@ -70,11 +73,21 @@ def ollama1():
 
     dspy.settings.configure(lm=ollama_lm)
 
-def cli():    
+def demo1():
     ollama1()
     qa = dspy.Predict(BasicQA)
     response = qa(question="巴黎是哪个国家的首都？")
     print(response.answer)
+
+def demo2():
+    ollama1()
+    qa = dspy.ChainOfThought(BasicQA)
+    response = qa(question="巴黎是哪个国家的首都？")
+    print(response.answer)
+
+def cli():
+    demo1()
+    demo2()
 
 if __name__ == "__main__":
     cli()
