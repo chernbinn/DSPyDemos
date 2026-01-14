@@ -8,7 +8,7 @@ import ollama
 IP_ADDR = "192.168.3.17"
 
 # 创建Ollama模型适配器
-class OllamaLM(dspy.LM):
+class OllamaLM(dspy.BaseLM):
     def __init__(self, model="llama3", base_url=f"http://{IP_ADDR}:11111", max_tokens=500, temperature=0.7, **kwargs):
         self.ollama_client = ollama.Client(host=base_url)
 

@@ -1,9 +1,14 @@
 import dspy
-import os
+from sdk.llm.ollama.ollama import OllamaLM
 
-os.environ["OPENAI_API_KEY"] = "{your_openai_api_key}"
+def ollama():
+    # 创建并配置Ollama模型实例
+    ollama_lm = OllamaLM(model="llama3.2:3b")
+    # print(ollama_lm("你好"))
+    ollama_lm.configure(model_type="chat")
+    return ollama_lm
 
-dspy.settings.configure(lm=dspy.LM("openai/gpt-4o-mini"))
+dspy.settings.configure(lm=ollama())
 
 class QA(dspy.Signature):
     question: str = dspy.InputField()
@@ -21,4 +26,5 @@ while True:
     print(f"\n{outputs.answer}\n")
     history.messages.append({"question": question, **outputs})
 
+print("-------------------history")
 dspy.inspect_history()
