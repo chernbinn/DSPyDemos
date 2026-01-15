@@ -1,6 +1,8 @@
 import dspy
 import requests
 import json
+import datetime
+import uuid
 import ollama
 # from ollama import Client
 
@@ -13,7 +15,7 @@ class OllamaLM(dspy.BaseLM):
         self.ollama_client = ollama.Client(host=base_url)
 
         self.model = model
-        self.base_url = base_url.rstrip("/")
+        self.base_url = base_url.rstrip("/")        
         self.max_tokens = max_tokens
         self.temperature = temperature
         self.kwargs = kwargs
@@ -54,6 +56,7 @@ class OllamaLM(dspy.BaseLM):
             raise Exception(f"Ollama API error: {response.status_code} - {response.text}")
 
         result = response.json()
+        '''
         # 保存历史（用于 inspect_history）
         self.history.append({
             "messages": messages,
@@ -61,6 +64,7 @@ class OllamaLM(dspy.BaseLM):
             "response": result,
             "kwargs": kwargs,
         })
+        '''
         return result
 
     def chat(self, messages, **kwargs):
@@ -109,9 +113,34 @@ class OllamaLM(dspy.BaseLM):
         if is_chat:
             response = self.chat(messages, **kwargs)
             # 返回 list of completions（DSPy 要求）
-            return [response.strip()]
+            output = response.strip()
+            # return [output]
         else:
             response = self.basic_request(messages, **kwargs)
             # 返回 list of completions（DSPy 要求）
-            return [response["response"].strip()]
+            # return [response["response"].strip()]
+            output = response["response"].strip()
+
+        # 构建历史记录条目，遵循BaseLM的格式
+        entry = {
+            "prompt": None,  # 可以根据messages构建prompt
+            "messages": messages,
+            "kwargs": kwargs,
+            "response": response,
+            "outputs": [output],
+            "usage": {},  # Ollama API不返回usage信息
+            "cost": None,  # 本地模型没有成本
+            "timestamp": datetime.datetime.now().isoformat(),
+            "uuid": str(uuid.uuid4()),
+            "model": self.model,
+            "response_model": self.model,
+            "model_type": self.model_type,  
+        }
+        
+        # 调用BaseLM的update_history方法保存历史记录
+        # 这会同时更新self.history和GLOBAL_HISTORY
+        self.update_history(entry)
+        
+        # 返回 list of completions（DSPy 要求）
+        return [output]
 
