@@ -15,7 +15,7 @@ class QA(dspy.Signature):
     history: dspy.History = dspy.InputField()
     answer: str = dspy.OutputField()
 
-predict = dspy.Predict(QA)
+predict = dspy.Predict(QA)      
 history = dspy.History(messages=[])
 
 while True:
