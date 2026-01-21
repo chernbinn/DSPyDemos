@@ -9,8 +9,10 @@ description = "DSPy learn demos"
 readme="README.md"
 
 dependencies = [
+    "datasets>=4.5.0",
     "dspy>=3.0.3",
     "ollama>=0.6.0",
+    "pandas>=2.3.3",
 ]
 
 #[project.scripts]
