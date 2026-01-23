@@ -90,9 +90,10 @@ class HGFile:
 
 def download_huggingface_files():
     files = [
+        HGFile("datasets/bytedance-research/ToolHop", "data/ToolHop.json"),
         # HGFile("vincentkoc/hover-parquet", "train-00000-of-00001.parquet"),
         HGFile("dspy/cache", "ragqa_arena_tech_examples.jsonl"),
-        HGFile("dspy/cache", "ragqa_arena_tech_corpus.jsonl"),        
+        HGFile("dspy/cache", "ragqa_arena_tech_corpus.jsonl"),
     ]
     for file in files:
         print(f"下载文件: 从 {file.repo_id} 下载 {file.filename} ")
