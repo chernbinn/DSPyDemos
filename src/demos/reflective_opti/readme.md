@@ -7,5 +7,5 @@
 | --- | --- | --- |
 |math.py|使用反思算法优化数学问题求解模型|数据加载成功，评估过程出现错误，需要深入分析DSPy代码，可能存在适配需求。<span style="color:red">测试失败</span>|
 |info_extract.py|使用反思算法优化信息提取模型|<span style="color:red">数据下载失败，无法测试</span>|
-|privacy_delegate.py|基于反思算法优化隐私代理模型||
+|privacy_delegate.py|基于反思算法优化隐私代理模型|<span style="color:green">可运行验证测试，测试结果需要手动检查</span>|
 |ai_control_classify.py|基于反思算法优化AI控制分类模型|<span style="color:red">代码复杂、环境依赖复杂，延后分析验证</span>|
