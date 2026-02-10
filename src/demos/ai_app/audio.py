@@ -16,6 +16,13 @@ import soundfile as sf
 import io
 from IPython.display import Audio
 
+'''
+示例1：基于音频信息回答问题
+示例2：基于文本信息及声音风格（情绪，如愤怒、开心等）要求输出相应的音频
+
+依赖多模态能处理音频数据的模型，如gpt-4o-mini-audio-preview-2024-12-17
+'''
+
 def demo1():
     print("------------ 示例1：基于音频信息回答问题")
     print("-----加载SpokenSquad数据集-----")
@@ -72,6 +79,7 @@ def demo1():
     evaluate_program(optimized_program)
 
 # --------------------------------------------
+CACHE_DIR = ".audio_cache"
 def hash_key(raw_line: str, prompt: str) -> str:
         return hashlib.sha256(f"{raw_line}|||{prompt}".encode("utf-8")).hexdigest()
 
@@ -112,6 +120,7 @@ class EmotionStylePrompter(dspy.Module):
         return dspy.Prediction(audio=audio)
 
 def demo2():
+    # 用于生成不同情感语音的语音指令模型
     dspy.configure(lm=dspy.LM(model='gpt-4o-mini'))
     
     print("------------ 示例2：基于文本内容生成不同情感的语音")
@@ -146,7 +155,6 @@ def demo2():
     trainset = [preprocess(crema_d[idx]) for idx in train_indices]
     testset = [preprocess(crema_d[idx]) for idx in test_indices]
 
-    CACHE_DIR = ".audio_cache"
     os.makedirs(CACHE_DIR, exist_ok=True) 
     bundle = torchaudio.pipelines.WAV2VEC2_BASE
     model = bundle.get_model().eval()

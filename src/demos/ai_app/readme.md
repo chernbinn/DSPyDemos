@@ -5,7 +5,7 @@
 |**Basic APP**|
 |simple_chat.py|1.本地模型配置验证<br>2.简单的dspy moudule调用|测试通过|
 |hisitory.py|dspy对历史消息的使用方式；同时，demo展示了不同方式对本地ollama模型的调用|测试完成|
-|flight_agent|基于dspy构建的订票智能体||
+|flight_agent|基于dspy构建的订票智能体|可以运行，对模型的回复格式存在兼容性问题，目前未完成正确测试，部分正确。<span style="color:red">需要修复模型回复格式问题，测试未通过</span>|
 |custom_dspy_module.py|自定义dspy module示例：在wiki页面搜索内容，然后模型根据搜索结果回答问题|依赖wiki页面，<span style="color:red">国内环境无法访问，无法验证</span>|
 |**RAG**|
 |local_rag.py|RAG应用的多个简单demos|1.可以运行</br>2.存在模型适配问题，都暂<span style="color:red">未测试通过</span>|

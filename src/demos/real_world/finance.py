@@ -14,7 +14,7 @@ import yfinance as yf
 
 # Configure DSPy
 lm = dspy.LM(
-    model='openai/gpt-4o-mini',
+    model='openai/llama3.2:3b',
     api_key="ollama",
     base_url="http://localhost:11111/v1",
 )

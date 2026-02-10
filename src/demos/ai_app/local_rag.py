@@ -48,6 +48,7 @@ def evaluate_init():
 evaluate_init()
 # ----------------- simple RAG
 def simple_rag():
+    '''llm直接回复问题，不基于知识内容，回复质量取决于模型能力'''
     print("----- simple RAG -----")
     cot = dspy.ChainOfThought('question -> response')
     # Produce a prediction from our `cot` module, using the `example` above as input.
@@ -88,7 +89,7 @@ def load_data():
                     api_key="sk-ollama",
                     api_base=f"http://192.168.3.17:11111/v1")
     '''
-    # 使用ollama的非openai调用模型，在litellm中会出现post请求变成get请求，导致调用失败。
+    # 使用ollama的非openai格式调用模型，在litellm中会出现post请求变成get请求，导致调用失败。
     # 逻辑上litellm是正确的，HTTPHandler中post请求会被转换为get请求，但是ollama的embed接口不支持get请求
     embedder = dspy.Embedder('ollama/quentinz/bge-base-zh-v1.5:q8_0', 
                     api_base=f"http://192.168.3.17:11111/")
@@ -99,6 +100,7 @@ embedder, corpus, topk_docs_to_retrieve = load_data()
 search = dspy.retrievers.Embeddings(embedder=embedder, corpus=corpus, k=topk_docs_to_retrieve)
 
 class RAG(dspy.Module):
+    '''基于知识内容回复问题，回复质量取决于模型能力和知识内容'''
     def __init__(self):
         self.respond = dspy.ChainOfThought('context, question -> response')
 

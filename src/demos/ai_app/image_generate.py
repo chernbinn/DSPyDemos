@@ -15,11 +15,16 @@ load_dotenv()
 # import display
 from IPython.display import display
 
-lm = dspy.LM(model="ollama/llama3.2-vision:11b", temperature=0.5)
+'''
+1.支持图像解析的文本模型输出改善提示词
+2.生成图像模型根据提示词生成图像
+'''
+
+lm = dspy.LM(model="ollama_chat/llama3.2-vision:11b", temperature=0.5)
 dspy.configure(lm=lm)
 
 def generate_image(prompt):
-
+    '''基于文本提示生成图像,注意：ollama软件不支持直接调用图像生成模型'''
     request_id = fal_client.submit(
         "fal-ai/flux-pro/v1.1-ultra",
         arguments={
@@ -41,6 +46,7 @@ def display_image(image):
     # display at 25% of original size
     display(image.resize((image.width // 4, image.height // 4)))
 
+# 非图像模型，支持图像解析的模型对生成的图像进行与最初意图进行对比评估，反馈改善提示
 check_and_revise_prompt = dspy.Predict("desired_prompt: str, current_image: dspy.Image, current_prompt:str -> feedback:str, image_strictly_matches_desired_prompt: bool, revised_prompt: str")
 
 initial_prompt = "A scene that's both peaceful and tense"

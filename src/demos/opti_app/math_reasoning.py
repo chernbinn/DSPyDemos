@@ -8,7 +8,9 @@ from dspy.datasets import MATH
 # pip install git+https://github.com/hendrycks/math.git
 # 安装 Hendrycks 的 MATH 数据集和相关工具，主要用于数学问题求解和评估
 
+# 学生模型
 gpt4o_mini = dspy.LM('ollama_chat/llama3.2:3b', api_key='sk-', max_tokens=2000, base_url='http://localhost:11111')
+# 老师模型
 gpt4o = dspy.LM('ollama_chat/ministral-3:3b', api_key='sk-', max_tokens=2000, base_url='http://localhost:11111')
 dspy.configure(lm=gpt4o_mini)  # we'll use gpt-4o-mini as the default LM, unless otherwise specified
 

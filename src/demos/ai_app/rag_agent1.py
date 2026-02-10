@@ -97,7 +97,7 @@ class Hop(dspy.Module):
         self.generate_query = dspy.ChainOfThought('claim, notes -> query')
         self.append_notes = dspy.ChainOfThought('claim, notes, context -> new_notes: list[str], titles: list[str]')
 
-    def forward(self, claim: str) -> list[str]:
+    def forward(self, claim: str) -> dspy.Prediction:
         notes = []
         titles = []
 
