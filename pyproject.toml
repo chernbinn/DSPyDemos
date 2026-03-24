@@ -7,12 +7,14 @@ name = "DSPyDemos"
 version = "0.1.0"
 description = "DSPy learn demos"
 readme="README.md"
+requires-python = ">=3.10"
 
 dependencies = [
     "datasets>=4.5.0",
     "dspy>=3.0.3",
     "ollama>=0.6.0",
     "pandas>=2.3.3",
+    "pydantic>=2.11.9",
 ]
 
 #[project.scripts]

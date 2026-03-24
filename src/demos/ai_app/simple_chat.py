@@ -1,9 +1,19 @@
 import dspy
 
+# 直接使用openai格式，不存在格式转换过程
+dspy.configure(lm=dspy.LM(
+        model="openai/llama3.2:3b",
+        api_key="sk-",
+        base_url=f"http://localhost:11434/v1",
+        temperature=0.7))
+
+"""
+# 改配置有效，基于litellm会存在格式转换过程
 dspy.configure(lm=dspy.LM(
         model="ollama_chat/llama3.2:3b",
-        base_url=f"http://192.168.3.17:11111",
+        base_url=f"http://localhost:11434/",
         temperature=0.7))
+"""
 
 print("-----------简单问答")
 qa = dspy.Predict('question: str -> response: str')
