@@ -38,4 +38,36 @@ python -m demos.opti_app.FT_agents
 |Tools, Development, and Deployment|tools_dev_deploy|
 |Real-World Examples|real_word|
 
+# 4.典型错误
+## 4.1 litellm使用post请求的url，在服务端显示为使用get请求，导致api请求失败
+**原因**：
+`base_url`值的末尾有’/‘，即base_url="http://localhost:11434/"，传入到litellm中时，url变为`http://localhost:11434//api/chat`
+```
+# litellm中发起请求的代码
+# litellm\llms\custom_httpx\llm_http_handler.py
+# async_httpx_client: AsyncHTTPHandler
+# _make_common_async_call
+...
+response = await async_httpx_client.post(
+                    url=api_base,
+                    headers=headers,
+                    data=(
+                        signed_json_body
+                        if signed_json_body is not None
+                        else json.dumps(data)
+                    ),
+                    timeout=timeout,
+                    stream=stream,
+                    logging_obj=logging_obj,
+                )
+...
+```
+post请求在底层实现中变为实际的get请求，导致api请求失败。
+```
+# ollama服务端日志
+[GIN] 2026/03/26 - 16:35:18 | 405 |            0s |       127.0.0.1 | GET      "/api/chat"
+```
+**解决方案**：
+确保base_url的末尾没有’/‘。即`base_url="http://localhost:11434"`
+
 
